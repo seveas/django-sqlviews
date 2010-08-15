@@ -36,7 +36,7 @@ import sys
 # Since this thing relies on django internals that are not guaranteed to be stable,
 # do a strict version check.
 COMPAT_MIN = '1.0'
-COMPAT_MAX = '1.1.9999'
+COMPAT_MAX = '1.3.9999'
 
 def sql_create_views(app, style):
     """Create views for all multi-table models in app"""
@@ -81,6 +81,9 @@ def sql_create_model_view(self, model, style):
     # Since that outputs quoted text, unquote it and mangle formatting
     # Slightly hackish but works
     query = model.objects.order_by().query
+    print query, type(query)
+    if hasattr(query, 'get_compiler'):
+        query = query.get_compiler(connection=connection)
     query.pre_sql_setup()
     for col in query.get_columns():
         view += re.sub(r'%s\.%s' % (qn(r'(\S+?)'), qn(r'(\S+?)')), hl, col)
@@ -105,4 +108,4 @@ class Command(AppCommand):
         if version < COMPAT_MIN or version > COMPAT_MAX:
             print "This command is not compatible with django version %s" % version
             sys.exit(1)
-        return u'\n'.join(sql_create_views(app, self.style)).encode('utf-8')
+        return ('\n%s\n' % u'\n'.join(sql_create_views(app, self.style))).encode('utf-8')

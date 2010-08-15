@@ -12,5 +12,5 @@ Usage:
 - Add 'sqlviews' to INSTALLED_APPS 
 - Run: ./manage.py sqlviews <appname>
 
-Compatible with django 1.0 and 1.1. Tested only on MySQL, bugreports or
-testreports for other databases are welcome.
+Tested only on MySQL, bugreports or testreports for other databases are
+welcome.
