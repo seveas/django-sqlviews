@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
  
 setup(name='django-sqlviews',
-    version=".".join(map(str, __import__("echelon").__version__)),
+    version="1.0",
     description='Management command for creating views of multi-table models',
     author='Dennis Kaarsemaker',
     author_email='dennis@kaarsemaker.net',
